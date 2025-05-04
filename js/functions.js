@@ -29,3 +29,20 @@ function pickNumbersFromStr(strOrNumber) {
 isLengthCorrect('keks', 5);
 checkPalindrome('lexa');
 pickNumbersFromStr(2025);
+
+const checkMeetingPossibility = (workStart, workEnd, meetStart, meetDuration) => {
+
+  const timeToMins = (time) => {
+    const [h, m] = time.split(':').map(Number);
+    return h * 60 + m;
+  };
+
+  const workStartMins = timeToMins(workStart);
+  const workEndMins = timeToMins(workEnd);
+  const meetStartMins = timeToMins(meetStart);
+  const meetEndMins = meetStartMins + meetDuration;
+
+  return meetStartMins >= workStartMins && meetEndMins <= workEndMins;
+};
+
+checkMeetingPossibility('8:30', '17:3', '8:09', 90);
