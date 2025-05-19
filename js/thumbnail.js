@@ -11,7 +11,7 @@ export const renderThumbnails = () => {
     photoElement.querySelector('.picture__img').src = url;
     photoElement.querySelector('.picture__img').alt = description;
     photoElement.querySelector('.picture__likes').textContent = likes;
-    photoElement.querySelector('.picture__comments').textContent = comments;
+    photoElement.querySelector('.picture__comments').textContent = comments.length;
     photoFragment.appendChild(photoElement);
   });
 
