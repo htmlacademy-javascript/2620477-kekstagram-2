@@ -21,5 +21,27 @@ const getUniqueNumber = (min, max) => {
   };
 };
 
-export {getRandomIntInInterval};
-export {getUniqueNumber};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const getCommentElement = ({avatar, name, message}) => {
+  const comment = document.createElement('li');
+  comment.classList.add('social__comment');
+
+  const avatarImg = document.createElement('img');
+  avatarImg.classList.add('social__picture');
+  avatarImg.src = avatar;
+  avatarImg.alt = name;
+  avatarImg.width = 35;
+  avatarImg.heigh = 35;
+
+  const userComment = document.createElement('p');
+  userComment.classList.add('social__text');
+  userComment.textContent = message;
+
+  comment.append(avatarImg, userComment);
+
+  return comment;
+};
+
+export {getRandomIntInInterval, getUniqueNumber, isEscapeKey};
+export {getCommentElement};
