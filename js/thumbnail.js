@@ -1,4 +1,4 @@
-import {createArrPhotoDescription} from './data.js';
+import {getPhotoDescription} from './data.js';
 
 let photoDescriptions = [];
 
@@ -9,7 +9,7 @@ export const renderThumbnails = () => {
   const pictures = document.querySelector('.pictures');
   const photoFragment = document.createDocumentFragment();
 
-  photoDescriptions = createArrPhotoDescription();
+  photoDescriptions = getPhotoDescription();
 
   photoDescriptions.forEach(({id, url, description, likes, comments}) => {
     const photoElement = template.cloneNode(true);

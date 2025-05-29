@@ -8,6 +8,7 @@ const COMMENTS_MIN = 0;
 const COMMENTS_MAX = 30;
 const AVATAR_MIN = 1;
 const AVATAR_MAX = 6;
+const COMMENTS_PER_PAGE = 5;
 
 const PHOTO_DESCRIPTION = [
   'On vacation',
@@ -110,9 +111,10 @@ const createPhotoDescription = () => ({
   comments : createComments(),
 });
 
-const createArrPhotoDescription = () => {
+const getPhotoDescription = () => {
   const photoDescArr = Array.from({length : DESC_MAX}, createPhotoDescription);
   return photoDescArr;
 };
 
-export {createArrPhotoDescription};
+export {getPhotoDescription};
+export {COMMENTS_PER_PAGE};
