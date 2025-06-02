@@ -43,5 +43,9 @@ const getCommentElement = ({avatar, name, message}) => {
   return comment;
 };
 
-export {getRandomIntInInterval, getUniqueNumber, isEscapeKey};
-export {getCommentElement};
+export {
+  getRandomIntInInterval,
+  getUniqueNumber,
+  isEscapeKey,
+  getCommentElement
+};
