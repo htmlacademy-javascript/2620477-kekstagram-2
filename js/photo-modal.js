@@ -51,7 +51,7 @@ const openPhotoModal = (photo) => {
 
   currentComments = photo.comments;
   shownComments = 0;
-  socialComments.innerHTML = '';
+  socialComments.textContent = '';
   commentsLoader.classList.remove('hidden');
 
   renderComments();

@@ -9,6 +9,15 @@ const COMMENTS_MAX = 30;
 const AVATAR_MIN = 1;
 const AVATAR_MAX = 6;
 const COMMENTS_PER_PAGE = 5;
+const MAX_HASHTAGS = 5;
+const MAX_UPLOAD_FORM_COMMENT_LENGTH = 140;
+const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
+const UploadFormErrorMessage = {
+  INVALID_HASHTAG: 'Неправильный формат хэштега',
+  DUPLICATE_HASHTAG: 'Хэштеги не должны повторяться',
+  MAX_HASHTAGS: `Нельзя указать больше ${MAX_HASHTAGS} хэштегов`,
+  MAX_UPLOAD_FORM_COMMENT_LENGTH: `Длина комментария не может быть больше ${MAX_UPLOAD_FORM_COMMENT_LENGTH} символов`,
+};
 
 const PHOTO_DESCRIPTION = [
   'On vacation',
@@ -116,5 +125,11 @@ const getPhotoDescription = () => {
   return photoDescArr;
 };
 
-export {getPhotoDescription};
-export {COMMENTS_PER_PAGE};
+export {getPhotoDescription,
+  COMMENTS_PER_PAGE,
+  MAX_UPLOAD_FORM_COMMENT_LENGTH,
+  HASHTAG_REGEX,
+  MAX_HASHTAGS,
+  UploadFormErrorMessage
+};
+
