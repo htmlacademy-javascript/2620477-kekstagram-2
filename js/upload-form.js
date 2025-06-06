@@ -7,6 +7,7 @@ const uploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadCancel = document.querySelector('.img-upload__cancel');
 const form = document.querySelector('.img-upload__form');
 const body = document.querySelector('body');
+const previewImage = uploadOverlay.querySelector('.img-upload__preview img');
 
 let scaleModule = null;
 
@@ -40,6 +41,10 @@ function closeUploadForm () {
   form.reset();
   uploadInput.value = '';
 
+  if (previewImage.src.startsWith('blob:')) {
+    URL.revokeObjectURL(previewImage.src);
+  }
+
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', closeUploadForm);
 }
@@ -50,6 +55,9 @@ const onFileInputChange = (evt) => {
   if (!file || !file.type.match('image.*')) {
     return;
   }
+
+  const url = URL.createObjectURL(file);
+  previewImage.src = url;
 
   openUploadForm();
 };
