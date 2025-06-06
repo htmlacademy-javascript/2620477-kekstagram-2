@@ -5,6 +5,7 @@ import {
   UploadFormErrorMessage
 } from './data.js';
 import { onDocumentKeydown } from './upload-form.js';
+import { isTextField } from './utils.js';
 
 const form = document.querySelector('.img-upload__form');
 const hashtagInput = form.querySelector('.text__hashtags');
@@ -85,15 +86,17 @@ const initValidation = () => {
     true
   );
 
-  [hashtagInput, commentInput].forEach((input) => {
-    input.addEventListener('focus', () => {
+  form.addEventListener('focus', (evt) => {
+    if (isTextField(evt.target)) {
       document.removeEventListener('keydown', onDocumentKeydown);
-    });
+    }
+  }, true);
 
-    input.addEventListener('blur', () => {
+  form.addEventListener('blur', (evt) => {
+    if (isTextField(evt.target)) {
       document.addEventListener('keydown', onDocumentKeydown);
-    });
-  });
+    }
+  }, true);
 
   form.addEventListener('submit', (evt) => {
     if (!pristine.validate()) {
