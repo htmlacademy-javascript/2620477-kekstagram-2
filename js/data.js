@@ -18,6 +18,9 @@ const UploadFormErrorMessage = {
   MAX_HASHTAGS: `Нельзя указать больше ${MAX_HASHTAGS} хэштегов`,
   MAX_UPLOAD_FORM_COMMENT_LENGTH: `Длина комментария не может быть больше ${MAX_UPLOAD_FORM_COMMENT_LENGTH} символов`,
 };
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+const SCALE_STEP = 25;
 
 const PHOTO_DESCRIPTION = [
   'On vacation',
@@ -84,6 +87,15 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
+const EFFECTS = {
+  none: { filter: 'none', unit: '', options: { min: 0, max: 100, start: 100 } },
+  chrome: { filter: 'grayscale', unit: '', options: { min: 0, max: 1, start: 1, step: 0.1 } },
+  sepia: { filter: 'sepia', unit: '', options: { min: 0, max: 1, start: 1, step: 0.1 } },
+  marvin: { filter: 'invert', unit: '%', options: { min: 0, max: 100, start: 100, step: 1 } },
+  phobos: { filter: 'blur', unit: 'px', options: { min: 0, max: 3, start: 3, step: 0.1 } },
+  heat: { filter: 'brightness', unit: '', options: { min: 1, max: 3, start: 3, step: 0.1 } },
+};
+
 const createMessage = () => {
   const getIndex = getUniqueNumber(0, MESSAGES.length - 1);
   const sentences = Array.from({length: getRandomIntInInterval(1, 2)}, () => MESSAGES[getIndex()]);
@@ -130,6 +142,10 @@ export {getPhotoDescription,
   MAX_UPLOAD_FORM_COMMENT_LENGTH,
   HASHTAG_REGEX,
   MAX_HASHTAGS,
-  UploadFormErrorMessage
+  UploadFormErrorMessage,
+  MIN_SCALE,
+  MAX_SCALE,
+  SCALE_STEP,
+  EFFECTS
 };
 

@@ -43,9 +43,13 @@ const getCommentElement = ({avatar, name, message}) => {
   return comment;
 };
 
+const isTextField = (element) => (element.tagName === 'INPUT' && element.type === 'text')
+  || element.tagName === 'TEXTAREA';
+
 export {
   getRandomIntInInterval,
   getUniqueNumber,
   isEscapeKey,
-  getCommentElement
+  getCommentElement,
+  isTextField
 };
