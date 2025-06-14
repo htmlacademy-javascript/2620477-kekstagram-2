@@ -4,47 +4,78 @@ import {
   HASHTAG_REGEX,
   UploadFormErrorMessage
 } from './data.js';
-import { onDocumentKeydown } from './upload-form.js';
-import { isTextField } from './utils.js';
+import { onDocumentKeydown, closeUploadForm } from './upload-form.js';
+import { isTextField, isEscapeKey } from './utils.js';
+import { sendData } from './api.js';
 
 const form = document.querySelector('.img-upload__form');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const normalizeHashtags = (value) => value.trim()
   .split(/\s+/)
   .filter(Boolean);
 
-const validateHashtagFormat = (value) => {
-  if (!value) {
-    return true;
-  }
-  const hashtags = normalizeHashtags(value);
+const validateHashtagFormat = (value) =>
+  !value || normalizeHashtags(value).every((hashtag) =>
+    HASHTAG_REGEX.test(hashtag));
 
-  return hashtags.every((hashtag) => HASHTAG_REGEX.test(hashtag));
-};
-
-const validateHashtagCount = (value) => {
-  if (!value) {
-    return true;
-  }
-  const hashtags = normalizeHashtags(value);
-
-  return hashtags.length <= MAX_HASHTAGS;
-};
+const validateHashtagCount = (value) =>
+  !value || normalizeHashtags(value).length <= MAX_HASHTAGS;
 
 const checkDuplicateHashtags = (value) => {
   if (!value) {
     return true;
   }
-  const hashtags = normalizeHashtags(value);
-  const lowerCaseHashtags = hashtags.map((tag) => tag.toLowerCase());
-  const uniqueHashtags = new Set(lowerCaseHashtags);
 
-  return uniqueHashtags.size === hashtags.length;
+  const hashtags = normalizeHashtags(value).map((tag) => tag.toLowerCase());
+  return new Set(hashtags).size === hashtags.length;
 };
 
 const validateComment = (value) => !value || value.length <= MAX_UPLOAD_FORM_COMMENT_LENGTH;
+
+const showSuccessMessage = () => {
+  const template = document.querySelector('#success').content.querySelector('.success');
+  const message = template.cloneNode(true);
+  document.body.appendChild(message);
+
+  const successButton = message.querySelector('.success__button');
+  successButton.addEventListener('click', () => message.remove());
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      message.remove();
+    }
+  }, { once: true });
+
+  document.addEventListener('click', (evt) => {
+    if (!evt.target.closest('.success__inner')) {
+      message.remove();
+    }
+  }, { once: true });
+};
+
+const showErrorMessage = () => {
+  const template = document.querySelector('#error').content.querySelector('.error');
+  const message = template.cloneNode(true);
+  document.body.appendChild(message);
+
+  const errorButton = message.querySelector('.error__button');
+  errorButton.addEventListener('click', () => message.remove());
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      message.remove();
+    }
+  }, { once: true });
+
+  document.addEventListener('click', (evt) => {
+    if (!evt.target.closest('.error__inner')) {
+      message.remove();
+    }
+  }, { once: true });
+};
 
 const initValidation = () => {
   const pristine = new Pristine(form, {
@@ -98,9 +129,24 @@ const initValidation = () => {
     }
   }, true);
 
-  form.addEventListener('submit', (evt) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+
     if (!pristine.validate()) {
-      evt.preventDefault();
+      return;
+    }
+
+    submitButton.disabled = true;
+
+    try {
+      const formData = new FormData(form);
+      await sendData(formData);
+      closeUploadForm();
+      showSuccessMessage();
+    } catch (error) {
+      showErrorMessage();
+    } finally {
+      submitButton.disabled = false;
     }
   });
 };
