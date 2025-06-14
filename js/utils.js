@@ -1,26 +1,3 @@
-const getRandomIntInInterval = (min, max) => {
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-
-  return Math.floor(Math.random() * (upper - lower + 1) + lower);
-};
-
-const getUniqueNumber = (min, max) => {
-  const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomIntInInterval(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      return;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomIntInInterval(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-};
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const getCommentElement = ({avatar, name, message}) => {
@@ -46,10 +23,20 @@ const getCommentElement = ({avatar, name, message}) => {
 const isTextField = (element) => (element.tagName === 'INPUT' && element.type === 'text')
   || element.tagName === 'TEXTAREA';
 
+const showDataErrorMessage = () => {
+  const template = document.querySelector('#data-error')
+    .content.querySelector('.data-error');
+  const message = template.cloneNode(true);
+  document.body.appendChild(message);
+
+  setTimeout(() => {
+    message.remove();
+  }, 5000);
+};
+
 export {
-  getRandomIntInInterval,
-  getUniqueNumber,
   isEscapeKey,
   getCommentElement,
-  isTextField
+  isTextField,
+  showDataErrorMessage
 };

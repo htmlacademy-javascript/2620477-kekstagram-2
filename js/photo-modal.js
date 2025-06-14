@@ -1,5 +1,4 @@
 import {isEscapeKey, getCommentElement} from './utils.js';
-import {getPhotoDescriptions} from './thumbnail.js';
 import {COMMENTS_PER_PAGE} from './data.js';
 
 const bigPicture = document.querySelector('.big-picture');
@@ -12,6 +11,7 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 let currentComments = [];
 let shownComments = 0;
+let photoDescriptions = [];
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -84,14 +84,15 @@ const onThumbnailClick = (evt) => {
   evt.preventDefault();
 
   const thumbnailPhotoId = thumbnail.dataset.photoId;
-  const photoData = getPhotoDescriptions().find((photo) => photo.id === Number(thumbnailPhotoId));
+  const photoData = photoDescriptions.find((photo) => photo.id === Number(thumbnailPhotoId));
 
   if (photoData) {
     openPhotoModal(photoData);
   }
 };
 
-const initPhotoModal = () => {
+const initPhotoModal = (photos) => {
+  photoDescriptions = photos;
   document.querySelector('.pictures')
     .addEventListener('click', onThumbnailClick);
   bigPictureCancel.addEventListener('click', closePhotoModal);
