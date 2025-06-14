@@ -10,20 +10,21 @@ const effectsList = document.querySelector('.effects__list');
 let currentEffect = 'none';
 
 const initSlider = () => {
-  noUiSlider.create(sliderElement, {
-    range: {
-      min: 0,
-      max: 100,
-    },
-    start: 100,
-    step: 1,
-    connect: 'lower',
-    format: {
-      to: (value) => Number.isInteger(value) ? value : value.toFixed(1),
-      from: (value) => parseFloat(value),
-    },
-  });
-
+  if (!sliderElement.noUiSlider) {
+    noUiSlider.create(sliderElement, {
+      range: {
+        min: 0,
+        max: 100,
+      },
+      start: 100,
+      step: 1,
+      connect: 'lower',
+      format: {
+        to: (value) => Number.isInteger(value) ? value : value.toFixed(1),
+        from: (value) => parseFloat(value),
+      },
+    });
+  }
   sliderContainer.classList.add('hidden');
 };
 
