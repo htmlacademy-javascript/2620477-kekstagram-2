@@ -3,7 +3,7 @@ import {MIN_SCALE, MAX_SCALE, SCALE_STEP} from './data.js';
 const scaleSmaller = document.querySelector('.scale__control--smaller');
 const scaleBigger = document.querySelector('.scale__control--bigger');
 const scaleValue = document.querySelector('.scale__control--value');
-const imgUploadPreview = document.querySelector('.img-upload__preview');
+const imgElement = document.querySelector('.img-upload__preview img');
 
 let currentListeners = null;
 
@@ -12,7 +12,7 @@ export const initScale = () => {
 
   const updateScale = () => {
     scaleValue.value = `${currentScale}%`;
-    imgUploadPreview.style.transform = `scale(${currentScale / 100})`;
+    imgElement.style.transform = `scale(${currentScale / 100})`;
   };
 
   const onSmallerClick = () => {

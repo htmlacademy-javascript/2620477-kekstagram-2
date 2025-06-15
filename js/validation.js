@@ -12,6 +12,12 @@ const form = document.querySelector('.img-upload__form');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
+const messageTemplates = {
+  success: document.querySelector('#success').content.querySelector('.success'),
+  error: document.querySelector('#error').content.querySelector('.error')
+};
+
+let pristine;
 
 const normalizeHashtags = (value) => value.trim()
   .split(/\s+/)
@@ -28,57 +34,46 @@ const checkDuplicateHashtags = (value) => {
   if (!value) {
     return true;
   }
-
   const hashtags = normalizeHashtags(value).map((tag) => tag.toLowerCase());
   return new Set(hashtags).size === hashtags.length;
 };
 
 const validateComment = (value) => !value || value.length <= MAX_UPLOAD_FORM_COMMENT_LENGTH;
 
-const showSuccessMessage = () => {
-  const template = document.querySelector('#success').content.querySelector('.success');
+const showStatusMessage = (type) => {
+  const template = messageTemplates[type];
   const message = template.cloneNode(true);
   document.body.appendChild(message);
 
-  const successButton = message.querySelector('.success__button');
-  successButton.addEventListener('click', () => message.remove());
+  const button = message.querySelector(`.${type}__button`);
+  const removeMessage = () => {
+    message.remove();
+  };
+
+  button.addEventListener('click', removeMessage);
 
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
-      message.remove();
+      evt.stopPropagation();
+      removeMessage();
     }
   }, { once: true });
 
   document.addEventListener('click', (evt) => {
-    if (!evt.target.closest('.success__inner')) {
-      message.remove();
+    if (!evt.target.closest(`.${type}__inner`)) {
+      removeMessage();
     }
   }, { once: true });
 };
 
-const showErrorMessage = () => {
-  const template = document.querySelector('#error').content.querySelector('.error');
-  const message = template.cloneNode(true);
-  document.body.appendChild(message);
-
-  const errorButton = message.querySelector('.error__button');
-  errorButton.addEventListener('click', () => message.remove());
-
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      message.remove();
-    }
-  }, { once: true });
-
-  document.addEventListener('click', (evt) => {
-    if (!evt.target.closest('.error__inner')) {
-      message.remove();
-    }
-  }, { once: true });
+const resetValidation = () => {
+  if (pristine) {
+    pristine.reset();
+  }
 };
 
 const initValidation = () => {
-  const pristine = new Pristine(form, {
+  pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
     errorClass: 'img-upload__field-wrapper--error',
     errorTextParent: 'img-upload__field-wrapper',
@@ -141,14 +136,15 @@ const initValidation = () => {
     try {
       const formData = new FormData(form);
       await sendData(formData);
+      pristine.reset();
       closeUploadForm();
-      showSuccessMessage();
+      showStatusMessage('success');
     } catch (error) {
-      showErrorMessage();
+      showStatusMessage('error');
     } finally {
       submitButton.disabled = false;
     }
   });
 };
 
-export { initValidation };
+export { initValidation, resetValidation };

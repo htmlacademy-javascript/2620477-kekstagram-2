@@ -8,6 +8,7 @@ const socialComments = bigPicture.querySelector('.social__comments');
 const shownCommentsCount = bigPicture.querySelector('.social__comment-shown-count');
 const commentsTotalCount = bigPicture.querySelector('.social__comment-total-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
+const picturesContainer = document.querySelector('.pictures');
 
 let currentComments = [];
 let shownComments = 0;
@@ -21,8 +22,7 @@ const onDocumentKeydown = (evt) => {
 };
 
 const renderComments = () => {
-  const commentsToShow = Math.min(shownComments + COMMENTS_PER_PAGE,
-    currentComments.length);
+  const commentsToShow = Math.min(shownComments + COMMENTS_PER_PAGE, currentComments.length);
 
   for (let i = shownComments; i < commentsToShow; i++) {
     socialComments.appendChild(getCommentElement(currentComments[i]));
@@ -93,8 +93,7 @@ const onThumbnailClick = (evt) => {
 
 const initPhotoModal = (photos) => {
   photoDescriptions = photos;
-  document.querySelector('.pictures')
-    .addEventListener('click', onThumbnailClick);
+  picturesContainer.addEventListener('click', onThumbnailClick);
   bigPictureCancel.addEventListener('click', closePhotoModal);
 };
 

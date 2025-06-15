@@ -1,10 +1,8 @@
-export const renderThumbnails = (photoDescriptions) => {
-  const template = document.querySelector('#picture')
-    .content
-    .querySelector('.picture');
-  const pictures = document.querySelector('.pictures');
+const template = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainer = document.querySelector('.pictures');
 
-  pictures.querySelectorAll('.picture').forEach((element) => element.remove());
+export const renderThumbnails = (photoDescriptions) => {
+  picturesContainer.querySelectorAll('.picture').forEach((element) => element.remove());
 
   const photoFragment = document.createDocumentFragment();
 
@@ -23,5 +21,5 @@ export const renderThumbnails = (photoDescriptions) => {
     photoFragment.appendChild(photoElement);
   });
 
-  pictures.appendChild(photoFragment);
+  picturesContainer.appendChild(photoFragment);
 };

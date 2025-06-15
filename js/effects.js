@@ -6,6 +6,7 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 const imagePreview = document.querySelector('.img-upload__preview img');
 const effectsList = document.querySelector('.effects__list');
+const effectNoneRadio = document.querySelector('#effect-none');
 
 let currentEffect = 'none';
 
@@ -29,7 +30,7 @@ const initSlider = () => {
 };
 
 const updateSlider = (effect) => {
-  const {options} = EFFECTS[effect];
+  const { options } = EFFECTS[effect];
 
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -76,7 +77,7 @@ const onEffectChange = (evt) => {
 const resetEffects = () => {
   currentEffect = 'none';
   applyEffect('none');
-  document.querySelector('#effect-none').checked = true;
+  effectNoneRadio.checked = true;
   sliderContainer.classList.add('hidden');
 };
 
