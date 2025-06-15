@@ -45,10 +45,16 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
+const getRandomPhotos = (photos, count) => {
+  const shuffled = [...photos].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, Math.min(count, photos.length));
+};
+
 export {
   isEscapeKey,
   getCommentElement,
   isTextField,
   showDataErrorMessage,
-  debounce
+  debounce,
+  getRandomPhotos
 };

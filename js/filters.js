@@ -1,13 +1,8 @@
-import { debounce } from './utils.js';
+import { getRandomPhotos, debounce } from './utils.js';
 import { renderThumbnails } from './thumbnail.js';
 import { DEBOUNCE_TIMEOUT_DELAY } from './data.js';
 
 let allPhotos = [];
-
-const getRandomPhotos = (photos, count) => {
-  const shuffled = [...photos].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, Math.min(count, photos.length));
-};
 
 export const applyFilter = (filterType) => {
   let filteredPhotos;
