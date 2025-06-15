@@ -25,10 +25,10 @@ const getCommentElement = ({avatar, name, message}) => {
 const isTextField = (element) => (element.tagName === 'INPUT' && element.type === 'text')
   || element.tagName === 'TEXTAREA';
 
+const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+
 const showDataErrorMessage = () => {
-  const template = document.querySelector('#data-error')
-    .content.querySelector('.data-error');
-  const message = template.cloneNode(true);
+  const message = dataErrorTemplate.cloneNode(true);
   document.body.appendChild(message);
 
   setTimeout(() => {
