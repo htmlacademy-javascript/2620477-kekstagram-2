@@ -1,3 +1,5 @@
+import { ERROR_TIMEOUT_DELAY } from './data.js';
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const getCommentElement = ({avatar, name, message}) => {
@@ -9,7 +11,7 @@ const getCommentElement = ({avatar, name, message}) => {
   avatarImg.src = avatar;
   avatarImg.alt = name;
   avatarImg.width = 35;
-  avatarImg.heigh = 35;
+  avatarImg.height = 35;
 
   const userComment = document.createElement('p');
   userComment.classList.add('social__text');
@@ -31,12 +33,22 @@ const showDataErrorMessage = () => {
 
   setTimeout(() => {
     message.remove();
-  }, 5000);
+  }, ERROR_TIMEOUT_DELAY);
+};
+
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
 };
 
 export {
   isEscapeKey,
   getCommentElement,
   isTextField,
-  showDataErrorMessage
+  showDataErrorMessage,
+  debounce
 };

@@ -11,6 +11,8 @@ const UploadFormErrorMessage = {
 const MIN_SCALE = 25;
 const MAX_SCALE = 100;
 const SCALE_STEP = 25;
+const DEBOUNCE_TIMEOUT_DELAY = 500;
+const ERROR_TIMEOUT_DELAY = 5000;
 
 const EFFECTS = {
   none: { filter: 'none', unit: '', options: { min: 0, max: 100, start: 100 } },
@@ -30,6 +32,7 @@ export {
   MIN_SCALE,
   MAX_SCALE,
   SCALE_STEP,
-  EFFECTS
+  EFFECTS,
+  DEBOUNCE_TIMEOUT_DELAY,
+  ERROR_TIMEOUT_DELAY
 };
-
